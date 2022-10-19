@@ -1,3 +1,4 @@
+import { UserCredential } from 'firebase/auth';
 import { ReactNode } from 'react';
 
 export interface ProductProps {
@@ -33,11 +34,11 @@ export type ShoppingCartValue = {
 export type UserContextProps = {
     children: ReactNode;
 };
-export type UserValue = {
-    userName: string;
+export type User = {
+    user: string;
 };
-export type InputValue = {
-    email: string;
-    password: string;
-    confirm: string;
-};
+export interface UserValue {
+    user: string | null;
+
+    createUser: (email: string, password: string) => Promise<UserCredential>;
+}

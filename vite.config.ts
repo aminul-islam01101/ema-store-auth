@@ -6,4 +6,11 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react(), eslint(), tsconfigPaths()],
+    server: { 
+      host: '0.0.0.0'
+    },
+    define: {
+        'process.env': {}
+     
+      }
 });
