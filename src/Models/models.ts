@@ -1,4 +1,4 @@
-import { UserCredential } from 'firebase/auth';
+import { User, UserCredential } from 'firebase/auth';
 import { ReactNode } from 'react';
 
 export interface ProductProps {
@@ -34,11 +34,11 @@ export type ShoppingCartValue = {
 export type UserContextProps = {
     children: ReactNode;
 };
-export type User = {
-    user: string;
-};
+// export type UserType = {
+//     user: User | null;
+// };
 export interface UserValue {
-    user: string | null;
+    user: User | null;
     createUser: (email: string, password: string) => Promise<UserCredential>;
     signIn: (email: string, password: string) => Promise<UserCredential>;
     logOut: () => Promise<void>;

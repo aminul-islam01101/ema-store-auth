@@ -11,7 +11,7 @@ const Login = () => {
         email: '',
         password: '',
     });
-    const { signIn, logOut } = useContext(AuthContext);
+    const { signIn } = useContext(AuthContext);
     const { email, password } = input;
 
     const onFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -30,15 +30,6 @@ const Login = () => {
                 form.reset();
             })
             .catch((error) => console.error(error));
-    };
-    const handleClick = () => {
-        logOut()
-            .then(() => {
-                alert('Sign-out successful.');
-            })
-            .catch((er) => {
-                console.error(er);
-            });
     };
 
     return (
@@ -136,9 +127,6 @@ const Login = () => {
                         Sign up
                     </Link>
                 </p>
-                <button onClick={handleClick} type="button" className="button">
-                    logout
-                </button>
             </div>
         </div>
     );

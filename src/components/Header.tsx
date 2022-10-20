@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AppBar from '@mui/material/AppBar';
@@ -25,14 +26,12 @@ const pages = [
     { pageName: 'Shop', link: 'shop', id: 1 },
     { pageName: 'Orders', link: 'orders', id: 2 },
     { pageName: 'Inventory', link: 'inventory', id: 3 },
-    { pageName: 'Login', link: 'login', id: 4 },
-    { pageName: 'Sign-Up', link: 'signup', id: 5 },
 ];
 // avatar menu options
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Header = () => {
-    const user = useContext(AuthContext);
+    const { logOut, user } = useContext(AuthContext);
 
     const { cartQuantity } = useShoppingCart();
 
@@ -52,6 +51,15 @@ const Header = () => {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+    const handleClick = () => {
+        logOut()
+            .then(() => {
+                alert('Sign-out successful.');
+            })
+            .catch((er) => {
+                console.error(er);
+            });
     };
 
     return (
@@ -130,9 +138,23 @@ const Header = () => {
                             </NavLink>
                         ))}
                     </Box>
+                    {user?.uid ? (
+                        <button onClick={handleClick} type="button" className="button">
+                            logout
+                        </button>
+                    ) : (
+                        <div className="mx-5">
+                            <Link to="/login" className="mr-2 text-white ">
+                                Login
+                            </Link>
+                            <Link to="/signup" className="text-white">
+                                Sign Up
+                            </Link>
+                        </div>
+                    )}
+
                     {/* right avatar menu */}
                     <Box sx={{ flexGrow: 0 }}>
-                        <span className="text-white">{user.userName}</span>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <img src={LoginImage} alt="img" className="h-6 w-6 rounded-full" />
