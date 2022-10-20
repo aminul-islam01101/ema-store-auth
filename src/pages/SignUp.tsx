@@ -1,10 +1,5 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable no-alert */
-/* eslint-disable @typescript-eslint/no-unused-expressions */
+
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { FaFacebook, FaGithub, FaGoogle, FaTwitter } from 'react-icons/fa';
@@ -57,7 +52,7 @@ const SignUp = () => {
                 console.log(user);
                 form.reset();
             })
-            .catch((error) => console.error(error));
+            .catch((err) => console.error(err));
     };
 
     return (

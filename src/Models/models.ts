@@ -39,6 +39,7 @@ export type User = {
 };
 export interface UserValue {
     user: string | null;
-
     createUser: (email: string, password: string) => Promise<UserCredential>;
+    signIn: (email: string, password: string) => Promise<UserCredential>;
+    logOut: () => Promise<void>;
 }

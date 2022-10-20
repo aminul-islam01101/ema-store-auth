@@ -14,14 +14,7 @@ const firebaseConfig = {
     storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
     messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
     appId: import.meta.env.VITE_APP_ID,
-    // apiKey: 'AIzaSyCI2_MPpkLvV8v4zZNKSLcNrdAJl-oCbwQ',
-    // authDomain: 'ema-store-593d9.firebaseapp.com',
-    // projectId: 'ema-store-593d9',
-    // storageBucket: 'ema-store-593d9.appspot.com',
-    // messagingSenderId: '65812212893',
-    // appId: '1:65812212893:web:c050632c72030b406df874',
 };
-console.log(firebaseConfig);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
