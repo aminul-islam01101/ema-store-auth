@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import {
     createUserWithEmailAndPassword,
@@ -14,19 +13,28 @@ import AuthContext from './AuthContext';
 
 const UserContext = ({ children }: UserContextProps) => {
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    const createUser = (email: string, password: string) =>
-        createUserWithEmailAndPassword(auth, email, password);
+    const createUser = (email: string, password: string) => {
+        setLoading(true);
+        return createUserWithEmailAndPassword(auth, email, password);
+    };
 
-    const signIn = (email: string, password: string) =>
-        signInWithEmailAndPassword(auth, email, password);
+    const signIn = (email: string, password: string) => {
+        setLoading(true);
+        return signInWithEmailAndPassword(auth, email, password);
+    };
 
-    const logOut = () => signOut(auth);
+    const logOut = () => {
+        setLoading(true);
+        return signOut(auth);
+    };
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             console.log(currentUser);
             setUser(currentUser);
+            setLoading(false);
         });
 
         return unsubscribe;
@@ -34,7 +42,7 @@ const UserContext = ({ children }: UserContextProps) => {
 
     // const value = useMemo(() => ({ authInfo }), []) as UserValue;
     return (
-        <AuthContext.Provider value={{ user, createUser, signIn, logOut }}>
+        <AuthContext.Provider value={{ user, loading, createUser, signIn, logOut }}>
             {children}
         </AuthContext.Provider>
     );

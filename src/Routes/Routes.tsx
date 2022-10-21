@@ -7,6 +7,7 @@ import Login from '../pages/Login';
 import Orders from '../pages/Orders';
 import ProductDetails from '../pages/Shop/ProductDetails';
 import Shop from '../pages/Shop/Shop';
+import PrivateRoute from './PrivateRoute';
 import Root from './Root';
 
 // export default Roots;
@@ -18,7 +19,14 @@ const router = createBrowserRouter(
             <Route path="/shop" element={<Shop />} />
             <Route path="/shop/:shopId" element={<ProductDetails />} />
 
-            <Route path="/orders" element={<Orders />} />
+            <Route
+                path="/orders"
+                element={
+                    <PrivateRoute>
+                        <Orders />
+                    </PrivateRoute>
+                }
+            />
             <Route path="/inventory" element={<Inventory />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />

@@ -42,4 +42,11 @@ export interface UserValue {
     createUser: (email: string, password: string) => Promise<UserCredential>;
     signIn: (email: string, password: string) => Promise<UserCredential>;
     logOut: () => Promise<void>;
+    loading: boolean;
 }
+
+export type LocationState = {
+    from: {
+        pathname: string;
+    };
+};

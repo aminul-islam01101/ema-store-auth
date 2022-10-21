@@ -1,5 +1,3 @@
-/* eslint-disable no-alert */
-
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { FaFacebook, FaGithub, FaGoogle, FaTwitter } from 'react-icons/fa';

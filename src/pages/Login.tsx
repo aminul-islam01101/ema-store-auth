@@ -1,18 +1,22 @@
-/* eslint-disable no-alert */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import { FaFacebook, FaGithub, FaGoogle, FaTwitter } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AuthContext from '~/Contexts/AuthContext';
+import { LocationState } from '~/Models/models';
 
 const Login = () => {
     const [input, setInput] = useState({
         email: '',
         password: '',
     });
+
     const { signIn } = useContext(AuthContext);
     const { email, password } = input;
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = (location.state as LocationState)?.from?.pathname || '/';
 
     const onFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
@@ -28,6 +32,7 @@ const Login = () => {
                 const { user } = result;
                 console.log(user);
                 form.reset();
+                navigate(from, { replace: true });
             })
             .catch((error) => console.error(error));
     };

@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AppBar from '@mui/material/AppBar';
