@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
+import Button from '@mui/material/Button';
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { FaFacebook, FaGithub, FaGoogle, FaTwitter } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AuthContext from '~/Contexts/AuthContext';
@@ -12,7 +15,7 @@ const Login = () => {
         password: '',
     });
 
-    const { signIn } = useContext(AuthContext);
+    const { signIn, sendPassResetEmail, setLoading } = useContext(AuthContext);
     const { email, password } = input;
     const navigate = useNavigate();
     const location = useLocation();
@@ -32,9 +35,28 @@ const Login = () => {
                 const { user } = result;
                 console.log(user);
                 form.reset();
-                navigate(from, { replace: true });
+
+                user.emailVerified
+                    ? navigate(from, { replace: true })
+                    : toast.error('not verified');
             })
-            .catch((error) => console.error(error));
+            .catch((error) => console.error(error))
+            .finally(() => {
+                setLoading(false);
+            });
+    };
+    const handleForgetPass = () => {
+        if (!email) {
+            alert('please enter a valid email');
+            return;
+        }
+        sendPassResetEmail(email)
+            .then(() => {
+                toast.success('reset email sent');
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     return (
@@ -74,9 +96,8 @@ const Login = () => {
                         </label>
                     </div>
                     <div className="flex justify-end text-xs dark:dark:text-gray-400">
-                        <a rel="noopener noreferrer" href="#">
-                            Forgot Password?
-                        </a>
+                        Forgot Password? please
+                        <Button onClick={handleForgetPass}> Reset</Button>
                     </div>
                     <button
                         type="submit"

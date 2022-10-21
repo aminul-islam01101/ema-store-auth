@@ -31,7 +31,9 @@
         "react/function-component-definition": 0,
         //  "@typescript-eslint/no-unsafe-call":0,
         "import/extensions": 0,
-        "no-alert":"off",
+        "no-alert": "off",
+        "no-unused-expressions": ["warn", { "allowShortCircuit": true, "allowTernary": true }],
+        "@typescript-eslint/no-unused-expressions": ["warn", { "allowShortCircuit": true, "allowTernary": true }],
 
         "@typescript-eslint/no-unused-vars": [
             "warn",

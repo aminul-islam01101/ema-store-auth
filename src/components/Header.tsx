@@ -12,7 +12,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import AuthContext from '~/Contexts/AuthContext';
 import LoginImage from '../assets/images/LoginImage.png';
 import Logo from '../assets/images/logo.svg';
@@ -30,7 +31,8 @@ const pages = [
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Header = () => {
-    const { logOut, user } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const { logOut, user, setLoading } = useContext(AuthContext);
 
     const { cartQuantity } = useShoppingCart();
 
@@ -54,12 +56,15 @@ const Header = () => {
     const handleClick = () => {
         logOut()
             .then(() => {
-                alert('Sign-out successful.');
+                toast.success('Sign-out successful.');
+                setLoading(false);
+                navigate('/');
             })
             .catch((er) => {
                 console.error(er);
             });
     };
+    console.log(user);
 
     return (
         <AppBar position="sticky" className="bg-[#1C2B35]">

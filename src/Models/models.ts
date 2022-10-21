@@ -1,5 +1,5 @@
 import { User, UserCredential } from 'firebase/auth';
-import { ReactNode } from 'react';
+import { Dispatch, ReactNode, SetStateAction } from 'react';
 
 export interface ProductProps {
     id: string;
@@ -44,6 +44,8 @@ export interface UserValue {
     logOut: () => Promise<void>;
     loading: boolean;
     verifyMail: () => Promise<void>;
+    setLoading: Dispatch<SetStateAction<boolean>>;
+    sendPassResetEmail: (email: string) => Promise<void>;
 }
 
 export type LocationState = {
