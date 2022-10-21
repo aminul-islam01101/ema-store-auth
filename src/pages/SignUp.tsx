@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { FaFacebook, FaGithub, FaGoogle, FaTwitter } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import AuthContext from '~/Contexts/AuthContext';
@@ -22,8 +23,12 @@ const SignUp = () => {
         setInput({ ...input, [event.target.name]: value });
     };
     const { email, password, confirmPassword } = input;
-    const { createUser } = useContext(AuthContext);
-
+    const { createUser, verifyMail } = useContext(AuthContext);
+    const handleVerifyMail = () => {
+        verifyMail()
+            .then(() => {})
+            .catch((e) => console.error(e));
+    };
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
@@ -49,6 +54,8 @@ const SignUp = () => {
                 const { user } = result;
                 console.log(user);
                 form.reset();
+                handleVerifyMail();
+                toast.success('please verifyMail');
             })
             .catch((err) => console.error(err));
     };

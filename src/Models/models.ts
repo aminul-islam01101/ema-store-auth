@@ -43,6 +43,7 @@ export interface UserValue {
     signIn: (email: string, password: string) => Promise<UserCredential>;
     logOut: () => Promise<void>;
     loading: boolean;
+    verifyMail: () => Promise<void>;
 }
 
 export type LocationState = {

@@ -2,6 +2,7 @@
 import {
     createUserWithEmailAndPassword,
     onAuthStateChanged,
+    sendEmailVerification,
     signInWithEmailAndPassword,
     signOut,
     User,
@@ -29,6 +30,7 @@ const UserContext = ({ children }: UserContextProps) => {
         setLoading(true);
         return signOut(auth);
     };
+    const verifyMail = () => sendEmailVerification(auth.currentUser as User);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -42,7 +44,7 @@ const UserContext = ({ children }: UserContextProps) => {
 
     // const value = useMemo(() => ({ authInfo }), []) as UserValue;
     return (
-        <AuthContext.Provider value={{ user, loading, createUser, signIn, logOut }}>
+        <AuthContext.Provider value={{ verifyMail, user, loading, createUser, signIn, logOut }}>
             {children}
         </AuthContext.Provider>
     );
