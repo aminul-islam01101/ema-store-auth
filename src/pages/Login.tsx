@@ -15,7 +15,7 @@ const Login = () => {
         password: '',
     });
 
-    const { signIn, sendPassResetEmail, setLoading } = useContext(AuthContext);
+    const { signIn, sendPassResetEmail, setLoading, googleSignIn } = useContext(AuthContext);
     const { email, password } = input;
     const navigate = useNavigate();
     const location = useLocation();
@@ -56,6 +56,22 @@ const Login = () => {
             })
             .catch((error) => {
                 console.error(error);
+            });
+    };
+    // handle google sign in
+    const handleGoogleSignIn = () => {
+        googleSignIn()
+            .then((result) => {
+                const { user } = result;
+                console.log(user, user.emailVerified, user.uid);
+
+                user.emailVerified && navigate(from, { replace: true });
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
@@ -115,6 +131,7 @@ const Login = () => {
                 </div>
                 <div className="flex justify-center space-x-4">
                     <button
+                        onClick={handleGoogleSignIn}
                         type="button"
                         aria-label="Log in with Google"
                         className="rounded-sm p-3"

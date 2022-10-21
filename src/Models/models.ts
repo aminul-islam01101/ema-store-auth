@@ -37,6 +37,10 @@ export type UserContextProps = {
 // export type UserType = {
 //     user: User | null;
 // };
+export interface ProfileProps {
+    displayName: string;
+    photoURL: string;
+}
 export interface UserValue {
     user: User | null;
     createUser: (email: string, password: string) => Promise<UserCredential>;
@@ -46,6 +50,8 @@ export interface UserValue {
     verifyMail: () => Promise<void>;
     setLoading: Dispatch<SetStateAction<boolean>>;
     sendPassResetEmail: (email: string) => Promise<void>;
+    updateUserProfile: (profile: ProfileProps) => Promise<void>;
+    googleSignIn: () => Promise<UserCredential>;
 }
 
 export type LocationState = {

@@ -64,7 +64,7 @@ const Header = () => {
                 console.error(er);
             });
     };
-    console.log(user);
+    // console.log(updateUserProfile);
 
     return (
         <AppBar position="sticky" className="bg-[#1C2B35]">
@@ -159,9 +159,14 @@ const Header = () => {
 
                     {/* right avatar menu */}
                     <Box sx={{ flexGrow: 0 }}>
+                        <p className="text-white">{user?.displayName}</p>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <img src={LoginImage} alt="img" className="h-6 w-6 rounded-full" />
+                                <img
+                                    src={user?.photoURL || LoginImage}
+                                    alt="img"
+                                    className="h-6 w-6 rounded-full"
+                                />
                             </IconButton>
                         </Tooltip>
                         <Menu

@@ -6,14 +6,19 @@ import { Link } from 'react-router-dom';
 import AuthContext from '~/Contexts/AuthContext';
 
 const SignUp = () => {
+    //! Hooks
     const [input, setInput] = useState({
-        name: '',
+        names: '',
         email: '',
         password: '',
         confirmPassword: '',
+        photoUrl: '',
         checked: false,
     });
     const [error, setError] = useState<string | null>(null);
+    const { createUser, verifyMail, updateUserProfile } = useContext(AuthContext);
+
+    // Input field onChange event handler
     const onFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
         let value = event.target.value as typeof input[keyof typeof input];
         if (event.target.type === 'checkbox') {
@@ -22,16 +27,30 @@ const SignUp = () => {
 
         setInput({ ...input, [event.target.name]: value });
     };
-    const { email, password, confirmPassword } = input;
-    const { createUser, verifyMail } = useContext(AuthContext);
+    const { names, email, password, confirmPassword, photoUrl } = input;
+    // verifyMail functionality
     const handleVerifyMail = () => {
         verifyMail()
             .then(() => {})
             .catch((e) => console.error(e));
     };
+    // updateUserProfile functionality
+    const handleUpdateProfile = (name: string, pUrl: string) => {
+        const profile = {
+            displayName: name,
+            photoURL: pUrl,
+        };
+        updateUserProfile(profile)
+            .then(() => {})
+            .catch((err) => console.error(err));
+    };
+
+    // form field onSubmit event handler
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
+        console.log(photoUrl);
+        // password validation
 
         if (password.length < 6) {
             setError('password must be 6 ch');
@@ -49,6 +68,7 @@ const SignUp = () => {
         setError('signed up successfully');
         alert('signed up successfully');
 
+        // createUser functionality
         createUser(email, password)
             .then((result) => {
                 const { user } = result;
@@ -56,6 +76,7 @@ const SignUp = () => {
                 form.reset();
                 handleVerifyMail();
                 toast.success('please verifyMail');
+                handleUpdateProfile(names, photoUrl);
             })
             .catch((err) => console.error(err));
     };
@@ -67,15 +88,27 @@ const SignUp = () => {
                 <h1 className="text-center text-2xl font-bold">Sign-up</h1>
                 <form onSubmit={onSubmit} className="ng-untouched ng-pristine ng-valid space-y-6">
                     <div className="space-y-1 text-sm">
-                        <label htmlFor="name" className="block dark:dark:text-gray-400">
-                            Name
+                        <label htmlFor="names" className="block dark:dark:text-gray-400">
+                            Names
                             <input
                                 onChange={onFieldChange}
-                                name="name"
-                                id="name"
+                                name="names"
+                                id="names"
                                 placeholder="write your name"
                                 className="w-full rounded-md px-4 py-3 dark:dark:border-gray-700 dark:dark:bg-gray-900 dark:dark:text-gray-100 focus:dark:dark:border-violet-400"
                                 required
+                            />
+                        </label>
+                    </div>
+                    <div className="space-y-1 text-sm">
+                        <label htmlFor="photoUrl" className="block dark:dark:text-gray-400">
+                            Photo Url
+                            <input
+                                onChange={onFieldChange}
+                                name="photoUrl"
+                                id="photoUrl"
+                                placeholder="place your photoUrl"
+                                className="w-full rounded-md px-4 py-3 dark:dark:border-gray-700 dark:dark:bg-gray-900 dark:dark:text-gray-100 focus:dark:dark:border-violet-400"
                             />
                         </label>
                     </div>

@@ -1,47 +1,57 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 import {
     createUserWithEmailAndPassword,
+    GoogleAuthProvider,
     onAuthStateChanged,
     sendEmailVerification,
     sendPasswordResetEmail,
     signInWithEmailAndPassword,
+    signInWithPopup,
     signOut,
+    updateProfile,
     User,
 } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import auth from '~/firebase/firebase.config';
-import { UserContextProps } from '~/Models/models';
+import { ProfileProps, UserContextProps } from '~/Models/models';
 import AuthContext from './AuthContext';
 
 const UserContext = ({ children }: UserContextProps) => {
+    // hooks
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
 
+    // create user functionality
     const createUser = (email: string, password: string) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
     };
-
+    // signIn functionality
     const signIn = (email: string, password: string) => {
         setLoading(true);
         return signInWithEmailAndPassword(auth, email, password);
     };
-
+    // logout functionality
     const logOut = () => {
         setLoading(true);
         return signOut(auth);
     };
+    // verifyMail functionality
     const verifyMail = () => sendEmailVerification(auth.currentUser as User);
+
+    // reset pass functionality
     const sendPassResetEmail = (email: string) => sendPasswordResetEmail(auth, email);
 
+    // update profile functionality
+    const updateUserProfile = (profile: ProfileProps) =>
+        updateProfile(auth.currentUser as User, profile);
+
+    // useEffect observer
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
             console.log(firebaseUser);
             if (firebaseUser?.emailVerified) {
                 setUser(firebaseUser);
-                navigate('/');
             } else {
                 setUser(null);
             }
@@ -50,7 +60,14 @@ const UserContext = ({ children }: UserContextProps) => {
         });
 
         return () => unsubscribe();
-    }, [navigate]);
+    }, []);
+
+    // google authentication
+    const provider = new GoogleAuthProvider();
+    const googleSignIn = () => {
+        setLoading(true);
+        return signInWithPopup(auth, provider);
+    };
 
     // const value = useMemo(() => ({ authInfo }), []) as UserValue;
     return (
@@ -64,6 +81,8 @@ const UserContext = ({ children }: UserContextProps) => {
                 logOut,
                 setLoading,
                 sendPassResetEmail,
+                updateUserProfile,
+                googleSignIn,
             }}
         >
             {children}
